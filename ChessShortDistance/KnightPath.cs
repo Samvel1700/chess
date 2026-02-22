@@ -1,5 +1,5 @@
-﻿using ChessShortDistance.Models;
-
+﻿using ChessShortDistance.Enums;
+using ChessShortDistance.Models;
 
 namespace ChessShortDistance
 {
@@ -11,13 +11,6 @@ namespace ChessShortDistance
         static Position[] pathStack = new Position[N * N];
         static Position[] bestPath = new Position[N * N];
         static int bestCount = N * N;
-   
-
-        enum KnightMove
-        {
-            UpLeft, UpRight, DownLeft, DownRight,
-            LeftUp, LeftDown, RightUp, RightDown
-        }
 
         static (int dx, int dy) GetOffset(KnightMove move)
         {
@@ -50,7 +43,6 @@ namespace ChessShortDistance
                 }
                 return;
             }
-
             if (depth >= bestCount) return;
 
             foreach (KnightMove move in Enum.GetValues(typeof(KnightMove)))
@@ -67,24 +59,43 @@ namespace ChessShortDistance
 
                     DFS(new Position(nx, ny), target, depth + 1);
 
-                    visited[nx, ny] = false; 
+                    visited[nx, ny] = false;
                 }
             }
         }
 
         public static void RunProgram()
         {
+            Position start;
+            Position end;
+
+            //Convert B1-> to (7,1)
+            ConvertPorgram.Run(out start, out end);
+
+            //KnightCanMoveInOneStep program
+            if (KnightCanMoveInOneStep.Run(start, end))
+            {
+                Console.WriteLine("Knight can reach in ONE move!");
+                Console.WriteLine($"({start.Row}, {start.Col})");
+                Console.WriteLine($"({end.Row}, {end.Col})");
+                return;
+            }
+
+
             visited = new bool[N, N];
             pathStack = new Position[N * N];
             bestPath = new Position[N * N];
             bestCount = N * N;
 
-            Position start = new Position(2, 1);
-            Position end = new Position(7, 7);
+
+            //Position start = new Position(2, 1);
+            //Position end = new Position(7, 7);
 
             visited[start.Row, start.Col] = true;
 
+            //Depth First Search or DFS for a Graph
             DFS(start, end, 0);
+
 
             Console.WriteLine($"Minimal Steps: {bestCount}");
             Console.WriteLine("Knight path:");
@@ -93,6 +104,7 @@ namespace ChessShortDistance
             {
                 Console.WriteLine($"({bestPath[i].Row}, {bestPath[i].Col})");
             }
+
         }
     }
 }

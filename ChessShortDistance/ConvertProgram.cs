@@ -18,20 +18,18 @@ namespace ChessShortDistance
         }
 
 
-        public static void Run()
+        public static void Run(out Position start, out Position end )
         {
-            Console.Write("Write Start position(E2): ");
+            Console.Write("Write Start position(B1): ");
             string input1 = Console.ReadLine().ToUpper();
+            start = ConvertIndexes(input1);
+            Console.WriteLine("Start Position {0} , {1}", start.Row, start.Col);
 
-            Position startPosition = ConvertPorgram.ConvertIndexes(input1);
-            Console.WriteLine("Start Position {0} , {1}", startPosition.Row, startPosition.Col);
 
-
-            Console.Write("Write End position(D7): ");
+            Console.Write("Write End position(C3): ");
             string input2 = Console.ReadLine().ToUpper();
-
-            Position EndPosition = ConvertPorgram.ConvertIndexes(input2);
-            Console.WriteLine("End Position {0} , {1}", EndPosition.Row, EndPosition.Col);
+            end = ConvertIndexes(input2);
+            Console.WriteLine("End Position {0} , {1}", end.Row, end.Col);
 
         }
     }
