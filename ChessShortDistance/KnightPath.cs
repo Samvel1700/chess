@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessShortDistance.Models;
+
 
 namespace ChessShortDistance
 {
@@ -7,20 +8,10 @@ namespace ChessShortDistance
         const int N = 8;
 
         static bool[,] visited = new bool[N, N];
-        static Cell[] pathStack = new Cell[N * N];
-        static Cell[] bestPath = new Cell[N * N];
+        static Position[] pathStack = new Position[N * N];
+        static Position[] bestPath = new Position[N * N];
         static int bestCount = N * N;
-
-        struct Cell
-        {
-            public int X, Y;
-
-            public Cell(int x, int y)
-            {
-                X = x;
-                Y = y;
-            }
-        }
+   
 
         enum KnightMove
         {
@@ -44,11 +35,11 @@ namespace ChessShortDistance
             return (0, 0);
         }
 
-        static void DFS(Cell cur, Cell target, int depth)
+        static void DFS(Position cur, Position target, int depth)
         {
             pathStack[depth] = cur;
 
-            if (cur.X == target.X && cur.Y == target.Y)
+            if (cur.Row == target.Row && cur.Col == target.Col)
             {
                 if (depth < bestCount)
                 {
@@ -65,8 +56,8 @@ namespace ChessShortDistance
             foreach (KnightMove move in Enum.GetValues(typeof(KnightMove)))
             {
                 var offset = GetOffset(move);
-                int nx = cur.X + offset.dx;
-                int ny = cur.Y + offset.dy;
+                int nx = cur.Row + offset.dx;
+                int ny = cur.Col + offset.dy;
 
                 if (nx >= 0 && nx < N &&
                     ny >= 0 && ny < N &&
@@ -74,7 +65,7 @@ namespace ChessShortDistance
                 {
                     visited[nx, ny] = true;
 
-                    DFS(new Cell(nx, ny), target, depth + 1);
+                    DFS(new Position(nx, ny), target, depth + 1);
 
                     visited[nx, ny] = false; // backtracking
                 }
@@ -86,14 +77,14 @@ namespace ChessShortDistance
         {
             // СБРОС состояния (очень важно)
             visited = new bool[N, N];
-            pathStack = new Cell[N * N];
-            bestPath = new Cell[N * N];
+            pathStack = new Position[N * N];
+            bestPath = new Position[N * N];
             bestCount = N * N;
 
-            Cell start = new Cell(2, 1);
-            Cell end = new Cell(7, 7);
+            Position start = new Position(2, 1);
+            Position end = new Position(7, 7);
 
-            visited[start.X, start.Y] = true;
+            visited[start.Row, start.Col] = true;
 
             DFS(start, end, 0);
 
@@ -102,7 +93,7 @@ namespace ChessShortDistance
 
             for (int i = 0; i <= bestCount; i++)
             {
-                Console.WriteLine($"({bestPath[i].X}, {bestPath[i].Y})");
+                Console.WriteLine($"({bestPath[i].Row}, {bestPath[i].Col})");
             }
         }
     }
