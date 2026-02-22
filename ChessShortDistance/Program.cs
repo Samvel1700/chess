@@ -7,8 +7,8 @@ class Program
     {
 
 
-        //ConvertPorgram.Run();
-        KnightPath.RunProgram();
+        ConvertPorgram.Run();
+        //KnightPath.RunProgram();
 
 
     }

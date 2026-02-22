@@ -1,4 +1,5 @@
-﻿public struct Position
+﻿namespace ChessShortDistance.Models;
+public struct Position
 {
     public int Row;
     public int Col;
