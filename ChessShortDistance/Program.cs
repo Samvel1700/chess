@@ -66,7 +66,7 @@ class Program
         }
         Console.WriteLine("Wrong Pices Name.");
 
-        //KnightPath.RunProgram();
+        KnightPath.RunProgram();
 
 
     }
